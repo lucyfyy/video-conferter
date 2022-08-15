@@ -1,10 +1,11 @@
 import functions_framework
 import machine
+import delete
 import asyncio
 
 # Triggered by a change in a storage bucket
 @functions_framework.cloud_event
-async def main(cloud_event):
+def main(cloud_event):
     data = cloud_event.data
 
     event_id = cloud_event["id"]
@@ -29,13 +30,15 @@ async def main(cloud_event):
     print(f"Created: {timeCreated}")
     print(f"Updated: {updated}")
 
+    if __name__ == "__main__":
+        asyncio.run(processing(ext, src_bucket, dest_bucket, file, name))
+
+async def processing(ext, src_bucket, dest_bucket, file, name):
     if ext == "mp4":
-        await machine.copy_mp4(src_bucket, dest_bucket, file, name)
+        await machine.copy_mp4(src_bucket, dest_bucket, file)
         await machine.convert_webm(src_bucket, dest_bucket, file, name)
         await machine.convert_ogg(src_bucket, dest_bucket, file, name)
         await machine.create_thumbnail(src_bucket, dest_bucket, file, name)
+        delete.tmp(file)
     else:
         print("File extension is not supported")
-
-if __name__ == "__main__":
-    asyncio.run(main())

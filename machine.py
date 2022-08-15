@@ -1,13 +1,13 @@
 import ffmpeg
 import cloudstorage
 
-async def copy_mp4(src_bucket_name, dest_bucket_name, filename, name):
+async def copy_mp4(src_bucket_name, dest_bucket_name, filename):
     await cloudstorage.download(src_bucket_name, filename, filename)
     await cloudstorage.upload(dest_bucket_name, filename, filename)
 
 async def convert_webm(src_bucket_name, dest_bucket_name, filename, name):
     await cloudstorage.download(src_bucket_name, filename, filename)
-    stream = ffmpeg.input(filename)
+    stream = ffmpeg.input("/tmp/{file}".format(file=filename))
     wemb = ffmpeg.output(stream, '/tmp/{name}.webm'.format(name=name))
     print("Converting to webm")
     ffmpeg.run(wemb)
@@ -15,7 +15,7 @@ async def convert_webm(src_bucket_name, dest_bucket_name, filename, name):
     
 async def convert_ogg(src_bucket_name, dest_bucket_name, filename, name):
     await cloudstorage.download(src_bucket_name, filename, filename)
-    stream = ffmpeg.input(filename)
+    stream = ffmpeg.input("/tmp/{file}".format(file=filename))
     ogg = ffmpeg.output(stream, '/tmp/{name}.ogg'.format(name=name))
     print("Converting to ogg")
     await cloudstorage.upload(dest_bucket_name, f"{name}.ogg", f"{name}.ogg")
