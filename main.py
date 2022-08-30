@@ -46,20 +46,24 @@ async def main():
             await machine.convert_ogg(bucketId, dest_bucket, objectId, name)
             await machine.create_thumbnail(bucketId, dest_bucket, objectId, name)
             await delete.tmp(objectId)
+            print(f"File {objectId} successfull converted")
             sys.stdout.flush()
-            return (f"File {objectId} successfull converted", 204)
+            return ("", 204)
         elif ext == "mp4" and ifexists == True:
             e = f"File {objectId} is already exists in {dest_bucket}"
-            return (e, 404)
+            print(e)
+            sys.stdout.flush()
+            return ("", 404)
         else:
             e = f"File {ext} is not supported"
             print(e)
-            return (e, 404)
+            sys.stdout.flush()
+            return ("", 404)
         
     except BaseException as e:
         print(e)
         sys.stdout.flush()
-        return (e, 400)
+        return ("", 400)
 
 @app.route("/", methods=["GET"])
 async def test():
