@@ -1,14 +1,13 @@
-import os, shutil
+import os
 
-def tmp(file):
-  folder = f'/tmp/{file}'
-  for filename in os.listdir(folder):
-      file_path = os.path.join(folder, filename)
-      try:
-          if os.path.isfile(file_path) or os.path.islink(file_path):
-              os.unlink(file_path)
-          elif os.path.isdir(file_path):
-              shutil.rmtree(file_path)
-      except BaseException as e:
-          print('Failed to delete %s. Reason: %s' % (file_path, e))
-          continue
+async def tmp(file):
+    folder = f'/tmp/{file}'
+    try:
+        if os.path.exists(folder):
+            os.remove(folder)
+            print(f"The file {file} has been deleted successfully")
+        else:
+            print(f"The file {file} does not exist!")
+    except BaseException as e:
+        print('Failed to delete %s. Reason: %s' % (folder, e))
+        pass
