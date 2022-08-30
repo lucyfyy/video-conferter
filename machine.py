@@ -2,7 +2,7 @@ import ffmpeg
 import cloudstorage
 
 async def copy_mp4(src_bucket_name, dest_bucket_name, filename):
-    await cloudstorage.download(src_bucket_name, filename, filename)
+    await cloudstorage.download(src_bucket_name, filename)
     await cloudstorage.upload(dest_bucket_name, filename, filename)
 
 async def convert_webm(src_bucket_name, dest_bucket_name, filename, name):
