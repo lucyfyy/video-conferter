@@ -25,5 +25,6 @@ async def upload(dest_bucket_name, source_file_name, destination_blob_name):
 async def cek_if_exists(source_file_name, dest_bucket_name):
      print(f"Checking file {source_file_name} if exists")
      storage_client = storage.Client()
-     result = storage.Blob("/video"+source_file_name, dest_bucket_name).exists(storage_client)
+     bucket = storage_client.bucket(dest_bucket_name)
+     result = storage.Blob("video"+source_file_name, bucket).exists(storage_client)
      return result
