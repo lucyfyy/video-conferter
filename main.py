@@ -51,16 +51,16 @@ async def main():
         else:
             e = f"File {ext} is not supported"
             print(e)
-            return (e, 404)
+            return ("", 404)
         
     except BaseException as e:
         print(e)
         sys.stdout.flush()
-        return (e, 400)
+        return ("", 400)
 
-@app.route("/test", methods=["GET"])
+@app.route("/", methods=["GET"])
 async def test():
-    return ("tes berhasil", 200)
+    return ("video-processing-api", 200)
 
 if __name__=='__main__':
     app.run(host="0.0.0.0", port="8080", threaded=True, debug=True)
