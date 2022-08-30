@@ -1,6 +1,6 @@
 from google.cloud import storage
 
-async def download(src_bucket_name, source_blob_name, destination_file_name):
+async def download(src_bucket_name, source_blob_name):
      print("Downloading {filename}".format(filename=source_blob_name))
      storage_client = storage.Client()
      bucket = storage_client.bucket(src_bucket_name)
@@ -15,7 +15,7 @@ async def upload(dest_bucket_name, source_file_name, destination_blob_name):
      print("Uploading {filename}".format(filename=source_file_name))
      storage_client = storage.Client()
      bucket = storage_client.bucket(dest_bucket_name)
-     blob = bucket.blob(destination_blob_name)
+     blob = bucket.blob("video/"+destination_blob_name)
 
      blob.upload_from_filename("/tmp/{file}".format(file=source_file_name))
      print(
