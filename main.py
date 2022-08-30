@@ -48,6 +48,8 @@ async def main():
             await delete.tmp(objectId)
             sys.stdout.flush()
             return (f"File {objectId} successfull converted", 204)
+        elif ext == "mp4" and ifexists == True:
+            e = f"File {objectId} is already exists in {dest_bucket}"
         else:
             e = f"File {ext} is not supported"
             print(e)
