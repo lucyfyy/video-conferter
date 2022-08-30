@@ -29,12 +29,12 @@ async def main():
         a = objectId.rsplit(".", 1)
         name = a[0]
         ext = a[1]
-        dest_bucket = "meidcplus-storage-bucket/video"
+        dest_bucket = "medicplus-storage-bucket"
 
         print("Event Time: {}".format(value["eventTime"]))
         print("Event type: {}".format(value["eventType"]))
         print(f"Source Bucket: {bucketId}")
-        print(f"Destination Buucket: {dest_bucket}")
+        print(f"Destination Bucket: {dest_bucket}")
         print(f"File: {objectId}")
 
         ifexists = await cloudstorage.cek_if_exists(objectId, dest_bucket)
