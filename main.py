@@ -47,16 +47,16 @@ async def main():
             await machine.create_thumbnail(bucketId, dest_bucket, objectId, name)
             await delete.tmp(objectId)
             sys.stdout.flush()
-            return ("", 204)
+            return (f"File {objectId} successfull converted", 204)
         else:
             e = f"File {ext} is not supported"
             print(e)
-            return ("", 404)
+            return (e, 404)
         
     except BaseException as e:
         print(e)
         sys.stdout.flush()
-        return ("", 400)
+        return (e, 400)
 
 @app.route("/", methods=["GET"])
 async def test():
