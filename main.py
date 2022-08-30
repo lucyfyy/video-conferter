@@ -9,7 +9,7 @@ from flask import Flask, request
 app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
-async def index():
+async def main():
     try:
         envelope = request.get_json()
         if not envelope:
@@ -57,6 +57,10 @@ async def index():
         print(e)
         sys.stdout.flush()
         return (e, 400)
+
+@app.route("/test", methods=["GET"])
+async def test():
+    return ("tes berhasil", 200)
 
 if __name__=='__main__':
     app.run(host="0.0.0.0", port="8080", threaded=True, debug=True)
