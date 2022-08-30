@@ -50,6 +50,7 @@ async def main():
             return (f"File {objectId} successfull converted", 204)
         elif ext == "mp4" and ifexists == True:
             e = f"File {objectId} is already exists in {dest_bucket}"
+            return (e, 404)
         else:
             e = f"File {ext} is not supported"
             print(e)
