@@ -37,7 +37,7 @@ async def main():
         print(f"Destination Bucket: {dest_bucket}")
         print(f"File: {objectId}")
 
-        ifexists = await cloudstorage.cek_if_exists(objectId, dest_bucket)
+        ifexists = cloudstorage.cek_if_exists(objectId, dest_bucket)
 
         if ext == "mp4" and ifexists == False:
             await delete.tmp(objectId)
