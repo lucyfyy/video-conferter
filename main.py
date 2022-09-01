@@ -42,23 +42,23 @@ async def main():
         if ext == "mp4" and ifexists == False:
             await delete.tmp(objectId)
             await machine.copy_mp4(bucketId, dest_bucket, objectId)
-            await machine.convert_webm(bucketId, dest_bucket, objectId, name)
-            await machine.convert_ogg(bucketId, dest_bucket, objectId, name)
-            await machine.create_thumbnail(bucketId, dest_bucket, objectId, name)
+            await machine.convert_webm( dest_bucket, name)
+            await machine.convert_ogg(dest_bucket, name)
+            await machine.create_thumbnail( dest_bucket, name)
             await delete.tmp(objectId)
             print(f"File {objectId} successfull converted")
             sys.stdout.flush()
-            return ("", 204)
+            return ("", 200)
         elif ext == "mp4" and ifexists == True:
             e = f"File {objectId} is already exists in {dest_bucket}"
             print(e)
             sys.stdout.flush()
-            return ("", 404)
+            return ("", 200)
         else:
             e = f"File {ext} is not supported"
             print(e)
             sys.stdout.flush()
-            return ("", 404)
+            return ("", 200)
         
     except BaseException as e:
         print(e)
