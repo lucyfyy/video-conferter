@@ -1,6 +1,6 @@
 import machine
 import delete
-import asyncio
+import logging
 import cloudstorage
 import sys
 
@@ -47,22 +47,26 @@ async def main():
             await machine.create_thumbnail( dest_bucket, name)
             await delete.tmp(objectId)
             print(f"File {objectId} successfull converted")
-            sys.stdout.flush()
+            logging.debug(f"File {objectId} successfull converted")
+            # sys.stdout.flush()
             return ("", 200)
         elif ext == "mp4" and ifexists == True:
             e = f"File {objectId} is already exists in {dest_bucket}"
             print(e)
-            sys.stdout.flush()
+            logging.debug(e)
+            # sys.stdout.flush()
             return ("", 200)
         else:
             e = f"File {ext} is not supported"
             print(e)
-            sys.stdout.flush()
+            logging.debug(e)
+            # sys.stdout.flush()
             return ("", 200)
         
     except BaseException as e:
         print(e)
-        sys.stdout.flush()
+        logging.error(e)
+        # sys.stdout.flush()
         return ("", 400)
 
 @app.route("/", methods=["GET"])
