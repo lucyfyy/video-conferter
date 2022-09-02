@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
-async def main():
+def main():
     try:
         envelope = request.get_json()
         if not envelope:
@@ -42,12 +42,12 @@ async def main():
         if ext == "mp4" and ifexists == False:
             client = google.cloud.logging.Client()
             client.setup_logging()
-            await delete.tmp(objectId)
-            await machine.copy_mp4(bucketId, dest_bucket, objectId)
-            await machine.convert_webm( dest_bucket, name)
-            await machine.convert_ogg(dest_bucket, name)
-            await machine.create_thumbnail( dest_bucket, name)
-            await delete.tmp(objectId)
+            delete.tmp(objectId)
+            machine.copy_mp4(bucketId, dest_bucket, objectId)
+            machine.convert_webm( dest_bucket, name)
+            machine.convert_ogg(dest_bucket, name)
+            machine.create_thumbnail( dest_bucket, name)
+            delete.tmp(objectId)
             ress = f"File {objectId} successfull converted" 
             print(ress)
             logging.info(ress)
@@ -62,7 +62,7 @@ async def main():
         else:
             client = google.cloud.logging.Client()
             client.setup_logging()
-            e = f"File {ext} is not supported"
+            ress = f"File {ext} is not supported"
             print(ress)
             logging.info(ress)
             return jsonify(ress), 200
@@ -75,7 +75,7 @@ async def main():
         return jsonify(ress), 200
 
 @app.route("/", methods=["GET"])
-async def test():
+def test():
     return jsonify("video-processing-api"), 200
 
 if __name__=='__main__':

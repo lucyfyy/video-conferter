@@ -7,7 +7,7 @@ def cek_if_exists(source_file_name, dest_bucket_name):
      result = storage.Blob("video/"+source_file_name, bucket).exists(storage_client)
      return result
 
-async def download(src_bucket_name, source_blob_name):
+def download(src_bucket_name, source_blob_name):
      print("Downloading {filename}".format(filename=source_blob_name))
      storage_client = storage.Client()
      bucket = storage_client.bucket(src_bucket_name)
@@ -18,7 +18,7 @@ async def download(src_bucket_name, source_blob_name):
           "Downloaded {file} from bucket {bucket} to /tmp/{file}".format(file=source_blob_name, bucket=src_bucket_name)
      )
 
-async def upload(dest_bucket_name, source_file_name, destination_blob_name):
+def upload(dest_bucket_name, source_file_name, destination_blob_name):
      print("Uploading {filename}".format(filename=source_file_name))
      storage_client = storage.Client()
      bucket = storage_client.bucket(dest_bucket_name)

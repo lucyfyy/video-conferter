@@ -1,6 +1,6 @@
 import os
 
-async def tmp(file):
+def tmp(file):
     folder = f'/tmp/{file}'
     try:
         if os.path.exists(folder):
