@@ -2,9 +2,9 @@ import machine
 import delete
 import logging
 import cloudstorage
-import sys
+import google.cloud.logging
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -40,38 +40,43 @@ async def main():
         ifexists = cloudstorage.cek_if_exists(objectId, dest_bucket)
 
         if ext == "mp4" and ifexists == False:
+            client = google.cloud.logging.Client()
+            client.setup_logging()
             await delete.tmp(objectId)
             await machine.copy_mp4(bucketId, dest_bucket, objectId)
             await machine.convert_webm( dest_bucket, name)
             await machine.convert_ogg(dest_bucket, name)
             await machine.create_thumbnail( dest_bucket, name)
             await delete.tmp(objectId)
-            print(f"File {objectId} successfull converted")
-            logging.debug(f"File {objectId} successfull converted")
-            # sys.stdout.flush()
-            return ("", 200)
+            ress = f"File {objectId} successfull converted" 
+            print(ress)
+            logging.info(ress)
+            return jsonify(ress), 200
         elif ext == "mp4" and ifexists == True:
-            e = f"File {objectId} is already exists in {dest_bucket}"
-            print(e)
-            logging.debug(e)
-            # sys.stdout.flush()
-            return ("", 200)
+            client = google.cloud.logging.Client()
+            client.setup_logging()
+            ress = f"File {objectId} is already exists in {dest_bucket}"
+            print(ress)
+            logging.info(ress)
+            return jsonify(ress), 200
         else:
+            client = google.cloud.logging.Client()
+            client.setup_logging()
             e = f"File {ext} is not supported"
-            print(e)
-            logging.debug(e)
-            # sys.stdout.flush()
-            return ("", 200)
+            print(ress)
+            logging.info(ress)
+            return jsonify(ress), 200
         
     except BaseException as e:
-        print(e)
-        logging.error(e)
-        # sys.stdout.flush()
-        return ("", 400)
+        client = google.cloud.logging.Client()
+        client.setup_logging()
+        print(ress)
+        logging.error(ress)
+        return jsonify(ress), 200
 
 @app.route("/", methods=["GET"])
 async def test():
-    return ("video-processing-api", 200)
+    return jsonify("video-processing-api"), 200
 
 if __name__=='__main__':
     app.run(host="0.0.0.0", port="8080", threaded=True, debug=True)
